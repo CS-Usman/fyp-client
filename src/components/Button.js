@@ -23,6 +23,20 @@ export default function Btn({ btnLabel, Press }) {
     );
 }
 
+export function SignupBtn({ btnLabel, Press }) {
+    return (
+        <TouchableOpacity onPress={Press} style={styles.SignupbtnStyle}>
+            <LinearGradient
+                colors={['white', 'white']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.SignupbtnGradient}>
+                <Text style={styles.SignupbuttonText}>{btnLabel} </Text>
+            </LinearGradient>
+        </TouchableOpacity>
+    );
+}
+
 export function GoogleBtn({ btnLabel, Press }) {
     return (
         <TouchableOpacity
@@ -56,18 +70,33 @@ export function AddToEmergencyContactBtn({ btnLabel, Press }) {
 
 const styles = StyleSheet.create({
     btnStyle: {
-        borderRadius: 100,
+        alignItems: 'center',
+        borderRadius:20,
+        
+    },
+    SignupbtnStyle: {
         alignItems: 'center',
         paddingVertical: responsiveHeight(1.5),
-        marginVertical: responsiveHeight(1),
+        paddingLeft: responsiveHeight(10),
+        width:responsiveWidth(30),
     },
+    SignupbtnGradient: {
+        width:responsiveWidth(40),
+        height: responsiveHeight(4),
+        borderRadius: 30,
+        alignItems:'center',
+      },
     gradient: {
-        padding: responsiveWidth(5),
+        borderRadius:50,
+        width: responsiveWidth(60),
+        height:responsiveHeight(5.5),
+        alignItems:'center'
     },
     btnTextStyle: {
         color: '#ffff',
         fontSize: responsiveFontSize(2.5),
         fontWeight: 'bold',
+
     },
     emergencyBtnStyle: {
         backgroundColor: '#4b3ca7',
@@ -77,4 +106,14 @@ const styles = StyleSheet.create({
         paddingVertical: responsiveHeight(1.5),
         marginVertical: responsiveHeight(1),
     },
+    buttonText:{
+        fontSize: responsiveFontSize(3),
+        fontFamily:'Montserrat-ExtraBold',
+        color:'white',
+    },
+    SignupbuttonText:{
+        fontSize: responsiveFontSize(2.5),
+        fontFamily:'Montserrat-ExtraBold',
+        color:'#04A7A4',
+    }
 });

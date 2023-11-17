@@ -24,12 +24,13 @@ export const SearchField = props => {
 const styles = StyleSheet.create({
     fieldStyle: {
         borderRadius: 100,
-        color: '#4b3ca7',
+        color: 'white',
         paddingHorizontal: responsiveWidth(5),
         paddingVertical: responsiveHeight(1),
-        width: responsiveWidth(75),
-        backgroundColor: 'rgb(220,220, 220)',
+        width: responsiveWidth(85),
+        backgroundColor: '#171717',
         marginVertical: responsiveHeight(1.2),
+    
     },
 
     searchFieldContainer: {

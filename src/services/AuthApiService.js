@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 export const loginApi = async (data) => {
     try {
         const response = await axios.post(
-            'http://192.168.1.3:3001/users/login',
+            'https://smartrideec2.ddns.net:3001/users/login',
             data,
             {
                 headers: {
@@ -19,10 +20,9 @@ export const loginApi = async (data) => {
 };
 
 export const signupApi = async (data) => {
-    console.log(data);
     try {
         const response = await axios.post(
-            'http://192.168.1.3:3001/users/sign-up',
+            'https://smartrideec2.ddns.net:3001/users/sign-up',
             data,
             {
                 headers: {
@@ -30,7 +30,7 @@ export const signupApi = async (data) => {
                 },
             }
         );
-
+        console.log(response);
         return response.data.success;
     } catch (error) {
         throw new Error(`Error in signupApi: ${error.message}`);
@@ -38,7 +38,7 @@ export const signupApi = async (data) => {
 };
 
 export const forgotPasswordApi = async (data) => {
-    const forgotPasswordUrl = encodeURI('http://192.168.1.3:3001/users/forgot-password');
+    const forgotPasswordUrl = encodeURI('https://smartrideec2.ddns.net:3001/users/forgot-password');
     try {
         const response = await axios.post(forgotPasswordUrl, data, {
             headers: {
@@ -54,7 +54,7 @@ export const forgotPasswordApi = async (data) => {
 };
 
 export const resetPasswordApi = async (data) => {
-    const ResetPasswordUrl = encodeURI('http://192.168.1.3:3001/users/reset-password');
+    const ResetPasswordUrl = encodeURI('https://smartrideec2.ddns.net:3001/users/reset-password');
     const queryParams = {
         email: data.email,
         resetToken: data.token,
@@ -74,10 +74,8 @@ export const resetPasswordApi = async (data) => {
 };
 
 export const logoutApi = async ({ email, token }) => {
-    const logoutUrl = encodeURI('http://192.168.1.3:3001/users/logout');
-
     try {
-        const response = await axios.delete(logoutUrl, {
+        const response = await axiosInstance.delete('/logout', {
             params: { email },
             headers: {
                 authorization: `Bearer ${token}`,
@@ -89,4 +87,39 @@ export const logoutApi = async ({ email, token }) => {
         throw new Error(`Error in logoutApi: ${error.message}`);
     }
 };
+
+export const validateToken = async ({ email, token }) => {
+    if (!email) { return false; }
+    const validateTokenUrl = encodeURI('https://smartrideec2.ddns.net:3001/users/validate-token');
+    const queryParams = {
+        email: email,
+    };
+    const body = {
+        token: token,
+    };
+
+    try {
+        const response = await axios.post(validateTokenUrl, body, { params: queryParams });
+        return response.data.data.validate;
+    } catch (error) {
+        return false;
+    }
+};
+
+export const refreshToken = async ({ email }) => {
+    if (!email) { return false; }
+    const refreshTokenUrl = encodeURI('https://smartrideec2.ddns.net:3001/users/refresh-token');
+    const body = {
+        email: email,
+    };
+
+    try {
+        const response = await axios.post(refreshTokenUrl, body);
+        return response.data.data;
+    } catch (error) {
+        throw new Error(`Error in refreshToken Api: ${error.message}`);
+    }
+};
+
+
 

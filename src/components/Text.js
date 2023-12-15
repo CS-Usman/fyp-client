@@ -2,11 +2,7 @@
 
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
-import {
-    responsiveHeight,
-    responsiveWidth,
-    responsiveFontSize,
-} from 'react-native-responsive-dimensions';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const Title = ({ content }) => {
     return (
@@ -33,7 +29,7 @@ export const Info = ({ content }) => {
 const styles = StyleSheet.create({
     title: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: responsiveFontSize(4),
+        fontSize: responsiveFontSize(3.5),
         color: '#ffff',
     },
     subtitle: {

@@ -1,15 +1,12 @@
 /* eslint-disable prettier/prettier */
 
-import {StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
   responsiveScreenWidth,
-  responsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
-
-const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   img: {
@@ -26,27 +23,16 @@ const styles = StyleSheet.create({
   loginContainer: {
     backgroundColor: '#1B1B1B',
     opacity: 0.95,
-    width: responsiveWidth(95), // Responsive width
-    paddingTop: responsiveHeight(5),
+    width: responsiveWidth(90), // Responsive width
+    paddingTop: responsiveHeight(3),
     alignItems: 'flex-start',
     paddingLeft: responsiveWidth(2.5), // Responsive padding
     borderRadius: 20,
-    height: responsiveHeight(51), // Responsive height
+    height: responsiveHeight(52), // Responsive height
   },
   loginInfoView: {
     paddingLeft: responsiveWidth(2.5),
     marginBottom: responsiveHeight(1),
-  },
-  subtitle: {
-    fontSize: responsiveFontSize(4.5), // Responsive font size
-    color: '#4b3ca7',
-    fontWeight: 'bold',
-  },
-  description: {
-    color: 'grey',
-    fontSize: responsiveFontSize(2), // Responsive font size
-    fontWeight: 'bold',
-    marginBottom: responsiveHeight(5), // Responsive margin
   },
   errorText: {
     color: 'red',
@@ -62,6 +48,8 @@ const styles = StyleSheet.create({
     width: responsiveWidth(80), // Responsive width
     alignItems: 'center',
     borderRadius: 20,
+    marginTop: responsiveHeight(2.3),
+    marginBottom: responsiveHeight(2.3),
   },
   forgotPasswordText: {
     color: '#4df8e8',
@@ -72,20 +60,17 @@ const styles = StyleSheet.create({
     color: 'black',
     width: responsiveWidth(90),
     opacity: 0.8,
-    padding: responsiveHeight(2),
+    padding: responsiveHeight(3),
     marginTop: responsiveHeight(5),
     alignItems: 'flex-start',
     paddingLeft: responsiveScreenWidth(5),
     borderRadius: 20,
     marginBottom: responsiveHeight(30),
-    height: responsiveHeight(14),
+    height: responsiveHeight(16),
   },
   signupText: {
     fontSize: responsiveFontSize(2), // Responsive font size
     fontWeight: 'bold',
-  },
-  signupLink: {
-    color: '#4b3ca7',
   },
   forgotPasswordView: {
     paddingRight: responsiveScreenWidth(10),

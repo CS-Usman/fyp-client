@@ -5,23 +5,19 @@ import {
     Text,
     StyleSheet,
     ImageBackground,
-    Dimensions,
     KeyboardAvoidingView,
-
 } from 'react-native';
 import {
     responsiveHeight,
     responsiveWidth,
-    responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 
 import { Formik } from 'formik';
 
+import Title, { Info } from '../../components/Text.js';
 import Btn from '../../components/Button';
 import Field from '../../components/TextInput';
 import { OtpValidationSchema } from '../../utils/FromValidation';
-
-const { width } = Dimensions.get('window');
 
 const VerifyOtpScreen = (props) => {
     const { userData } = props.route.params;
@@ -37,78 +33,85 @@ const VerifyOtpScreen = (props) => {
 
     return (
         <KeyboardAvoidingView>
-            {/* <ImageBackground
-                source={require('../../../assets/images/back2.png')}
-                style={{ height: '100%', width: '100%' }}
-            > */}
-            <View style={styles.container}>
-                <Text style={styles.title}>Verify OTP</Text>
-                <View style={styles.registerContainer}>
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={OtpValidationSchema}
-                        onSubmit={handleSubmit}
-                    >
-                        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
-                            <>
-                                <Field
-                                    onChangeText={handleChange('otp')}
-                                    onBlur={handleBlur('otp')}
-                                    value={values.otp}
-                                    placeholder="Enter OTP"
-                                />
-                                {errors.otp && (
-                                    <Text style={styles.errorText}>{errors.otp}</Text>
-                                )}
+            <ImageBackground
+                source={require('../../../assets/images/background.png')}
+                style={styles.img}>
+                <View style={styles.container}>
+                    <View style={styles.registerContainer}>
+                        <View style={styles.loginInfoView}>
+                            <Title content="VERIFY OTP" />
+                            <Info content="Enter otp you received in mail" />
+                        </View>
+                        <Formik
+                            initialValues={initialValues}
+                            validationSchema={OtpValidationSchema}
+                            onSubmit={handleSubmit}
+                        >
+                            {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+                                <>
+                                    <Field
+                                        onChangeText={handleChange('otp')}
+                                        onBlur={handleBlur('otp')}
+                                        value={values.otp}
+                                        placeholder="Enter OTP"
+                                        placeholderTextColor="#a9a9a9"
+                                    />
+                                    {errors.otp && (
+                                        <Text style={styles.errorText}>{errors.otp}</Text>
+                                    )}
+                                    <View style={styles.loginButtonView}>
+                                        <Btn title="Submit" btnLabel="VERIFY OTP" Press={handleSubmit} />
+                                    </View>
 
-                                <Btn title="Submit" btnLabel="Verify OTP" Press={handleSubmit} />
 
 
-                            </>
-                        )}
-                    </Formik>
+                                </>
+                            )}
+                        </Formik>
+                    </View>
                 </View>
-            </View>
-            {/* </ImageBackground> */}
+            </ImageBackground>
         </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        width: width,
+    img: {
+        height: '100%',
+        width: '100%',
     },
-    title: {
-        color: 'white',
-        fontSize: responsiveFontSize(4.5),
-        fontWeight: 'bold',
-        marginVertical: responsiveHeight(11),
+    container: {
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     registerContainer: {
-        backgroundColor: 'white',
-        width: responsiveWidth(100),
-        borderTopLeftRadius: 0.28 * width,
-        paddingTop: responsiveHeight(7),
-        alignItems: 'center',
+        backgroundColor: '#1B1B1B',
+        opacity: 0.95,
+        width: responsiveWidth(90), // Responsive width
+        paddingTop: responsiveHeight(3),
+        alignItems: 'flex-start',
+        paddingLeft: responsiveWidth(2.5), // Responsive padding
+        borderRadius: 20,
+        height: responsiveHeight(50), // Responsive height
     },
-    subtitle: {
-        fontSize: responsiveFontSize(3.5),
-        color: '#4b3ca7',
-        fontWeight: 'bold',
-    },
-    description: {
-        color: 'grey',
-        fontSize: responsiveFontSize(2),
-        fontWeight: 'bold',
-        marginBottom: responsiveHeight(5),
+    loginInfoView: {
+        paddingLeft: responsiveWidth(2.5),
+        marginBottom: responsiveHeight(4),
     },
     space: {
         marginVertical: responsiveHeight(0.5),
     },
     errorText: {
         color: 'red',
-        fontStyle: 'italic',
+        paddingLeft: responsiveWidth(5),
+    },
+    loginButtonView: {
+        marginTop: responsiveHeight(8),
+        width: responsiveWidth(80), // Responsive width
+        alignItems: 'center',
+        borderRadius: 20,
     },
 });
 

@@ -2,7 +2,7 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Import the Icon component
 import {
     responsiveHeight,
     responsiveWidth,
@@ -11,7 +11,7 @@ import {
 
 export default function Btn({ btnLabel, Press }) {
     return (
-        <TouchableOpacity onPress={Press} style={styles.btnStyle}>
+        <TouchableOpacity onPress={Press}>
             <LinearGradient
                 colors={['#3dc6b9', '#4df8e8']}
                 start={{ x: 0, y: 0 }}
@@ -55,65 +55,76 @@ export function AcceptBtn({ btnLabel, Press }) {
             onPress={Press}
             style={[styles.btnStyle, { backgroundColor: '#28a745' }]}>
             <Text style={[styles.btnTextStyle]}>
-                {btnLabel}
+                {btnLabel}{" "}<Icon name="check" size={20} color="#ffffff" />
             </Text>
         </TouchableOpacity>
     );
 }
 export function AddToEmergencyContactBtn({ btnLabel, Press }) {
     return (
+
         <TouchableOpacity onPress={Press} style={styles.emergencyBtnStyle}>
-            <Text style={[styles.btnTextStyle]}>{btnLabel}</Text>
+            <LinearGradient
+                colors={['#3dc6b9', '#4df8e8']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.emergencyBtnStyle}>
+                <Text style={[styles.btnTextStyle]}>{btnLabel} </Text>
+            </LinearGradient>
         </TouchableOpacity>
+        // <TouchableOpacity onPress={Press} style={styles.emergencyBtnStyle}>
+        //     <Text style={[styles.btnTextStyle]}>{btnLabel}</Text>
+        // </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
-    btnStyle: {
-        alignItems: 'center',
-        borderRadius:20,
-        
-    },
     SignupbtnStyle: {
         alignItems: 'center',
         paddingVertical: responsiveHeight(1.5),
         paddingLeft: responsiveHeight(10),
-        width:responsiveWidth(30),
+        width: responsiveWidth(30),
     },
     SignupbtnGradient: {
-        width:responsiveWidth(40),
-        height: responsiveHeight(4),
+        width: responsiveWidth(40),
+        height: responsiveHeight(5),
         borderRadius: 30,
-        alignItems:'center',
-      },
+        alignItems: 'center',
+    },
     gradient: {
-        borderRadius:50,
-        width: responsiveWidth(60),
-        height:responsiveHeight(5.5),
-        alignItems:'center'
+        borderRadius: 50,
+        width: responsiveWidth(55),
+        height: responsiveHeight(5.5),
+        alignItems: 'center',
+    },
+    btnStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 30,
+        paddingVertical: responsiveHeight(1.5),
+        width: responsiveWidth(50),
     },
     btnTextStyle: {
         color: '#ffff',
         fontSize: responsiveFontSize(2.5),
-        fontWeight: 'bold',
+        fontFamily: 'Montserrat-Bold',
 
     },
     emergencyBtnStyle: {
-        backgroundColor: '#4b3ca7',
         borderRadius: 100,
         alignItems: 'center',
         width: responsiveWidth(90),
-        paddingVertical: responsiveHeight(1.5),
-        marginVertical: responsiveHeight(1),
+        paddingVertical: responsiveHeight(1),
+        marginVertical: responsiveHeight(0.5),
     },
-    buttonText:{
+    buttonText: {
         fontSize: responsiveFontSize(3),
-        fontFamily:'Montserrat-ExtraBold',
-        color:'white',
+        fontFamily: 'Montserrat-Bold',
+        color: 'white',
     },
-    SignupbuttonText:{
-        fontSize: responsiveFontSize(2.5),
-        fontFamily:'Montserrat-ExtraBold',
-        color:'#04A7A4',
-    }
+    SignupbuttonText: {
+        fontSize: responsiveFontSize(2.7),
+        fontFamily: 'Montserrat-Bold',
+        color: '#04A7A4',
+    },
 });

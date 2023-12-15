@@ -1,28 +1,36 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios';
-export const getUserApi = async ({ email, token }) => {
-    const getApiUrl = encodeURI('http://192.168.1.3:3001/users/');
+import axiosInstance from '../utils/axiosInstance';
+import { extractDistanceDataset, generateWeekNames, generateDistanceDataset } from '../utils/distanceDataset';
+import { extractSpeedDataset, generateSpeedDataset } from '../utils/speedDataset';
 
+export const getUserApi = async ({ email, token }) => {
+    if (!email) { return false; }
     try {
-        const response = await axios.get(getApiUrl, {
+        const response = await axiosInstance.get('/', {
             params: { email },
             headers: {
                 authorization: `Bearer ${token}`,
             },
         });
-        console.log(response);
+        const weekNames = generateWeekNames(response.data.user.travelHistory);
+        const weekDistance = generateDistanceDataset(response.data.user.travelHistory);
+        const weekSpeed = generateSpeedDataset(response.data.user.travelHistory);
+        if (response.data.success) {
+            extractDistanceDataset(weekNames, weekDistance);
+            extractSpeedDataset(weekNames, weekSpeed)
+        }
         return response.data.user;
     } catch (error) {
-        throw new Error(`Error in getDataApi: ${error.message}`);
+        throw new Error(`Error in getUserApi: ${error.message}`);
     }
 };
 
 export const updateUserApi = async (data, token) => {
-    const updateApiUrl = encodeURI('http://192.168.1.3:3001/users/');
 
     try {
-        const response = await axios.put(
-            updateApiUrl,
+        const response = await axiosInstance.put(
+            '/',
             data,
             {
                 headers: {
@@ -42,11 +50,9 @@ export const updateUserApi = async (data, token) => {
 };
 
 export const deleteUserApi = async ({ email, token }) => {
-    console.log('data reaching api ', email, token);
-    const deleteApiUrl = encodeURI('http://192.168.1.3:3001/users/');
 
     try {
-        const response = await axios.delete(deleteApiUrl, {
+        const response = await axiosInstance.delete('/', {
             params: { email },
             headers: {
                 authorization: `Bearer ${token}`,
@@ -60,13 +66,12 @@ export const deleteUserApi = async ({ email, token }) => {
 
 
 export const sendSMSApi = async ({ email, location, token }) => {
-    const sendSMSApiUrl = encodeURI('http://192.168.1.3:3001/users/send-sos');
     const body = {
         email: email,
         location: location,
     };
     try {
-        const response = await axios.post(sendSMSApiUrl, body, {
+        const response = await axiosInstance.post('/send-sos', body, {
             headers: {
                 Accept: 'application/json',
                 authorization: `Bearer ${token}`,
@@ -83,9 +88,8 @@ export const changePasswordApi = async (data) => {
     const body = {
         password: data.password,
     };
-    const changePasswordApiUrl = encodeURI('http://192.168.1.3:3001/users/change-password');
     try {
-        const response = await axios.put(changePasswordApiUrl, body, {
+        const response = await axiosInstance.put('/change-password', body, {
             headers: {
                 Accept: 'application/json',
                 authorization: `Bearer ${token}`,
@@ -94,8 +98,43 @@ export const changePasswordApi = async (data) => {
                 email: data.email,
             },
         });
-        return response.data;
+        return response.data.token;
     } catch (error) {
         throw new Error(`Error in changePasswordApi: ${error.message}`);
+    }
+};
+
+export const setDataset = async (data) => {
+    const { token } = data;
+    const body = {
+        location: {
+            latitude: data.latitude,
+            longitude: data.longitude,
+        },
+        distance: data.distance,
+        speed: data.speed,
+    };
+    try {
+        const response = await axiosInstance.put('/update-dataset', body, {
+            headers: {
+                Accept: 'application/json',
+                authorization: `Bearer ${token}`,
+            },
+            params: {
+                email: data.email,
+            },
+        });
+        return response.data.success;
+    } catch (error) {
+        throw new Error(`Error in update dataset api: ${error.message}`);
+    }
+};
+
+export const getArduinoServerData = async () => {
+    try {
+        const response = await axios.get('https://iasfbiafvqaebgi.000webhostapp.com/');
+        return response;
+    } catch (error) {
+        throw new Error(`Error in update dataset api: ${error.message}`);
     }
 };

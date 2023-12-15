@@ -1,69 +1,79 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+/* eslint-disable prettier/prettier */
 
-import LoginScreen from '../screens/LoginScreen/LoginScreen';
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// main screens
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
-// forgot Password
-import ForgotPasswordScreen from '../screens/ForgotPassword/ForgotPasswordScreen';
-import VerifyOtpScreen from '../screens/ForgotPassword/VerifyOtpScreen';
-import ResetPasswordScreen from '../screens/ForgotPassword/ResetPasswordScreen';
+import SOSConfirmationScreen from '../screens/HomeScreen/SOSConfirmationScreen';
 import UserProfileScreen from '../screens/UserProfileScreen/UserProfileScreen';
-// import EditCredentialsScreen from '../screens/UserProfileScreen/EditCredentialsScreen';
-// import EditPasswordScreen from '../screens/UserProfileScreen/EditPasswordScreen';
+import EditCredentialsScreen from '../screens/UserProfileScreen/EditCredentialsScreen';
+import EditPasswordScreen from '../screens/UserProfileScreen/EditPasswordScreen';
+import UserContactScreen from '../screens/UserProfileScreen/UserContactScreen';
+import EditContactScreen from '../screens/UserProfileScreen/EditContactScreen';
+import LogoutConfirmationScreen from '../screens/UserProfileScreen/LogoutConfirmationScreen';
+import DeleteAccountConfirmationScreen from '../screens/UserProfileScreen/DeleteAccountConfirmationScreen';
+import { useLogin } from '../context/LoginProvider';
+import AuthNavigator from './AuthNavigator';
 
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <Stack.Navigator>
       <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{headerShown: false}}
-        />
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{headerShown: false}}
-        />
+        name="SOSConfirmationScreen"
+        component={SOSConfirmationScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
-          name="UserProfileScreen"
-          component={UserProfileScreen}
-          options={{headerShown: false}}
-        />
-        
-        <Stack.Screen
-          name="ForgotPasswordScreen"
-          component={ForgotPasswordScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="VerifyOtpScreen"
-          component={VerifyOtpScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="ResetPasswordScreen"
-          component={ResetPasswordScreen}
-          options={{headerShown: false}}
-        />
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="LogoutConfirmationScreen"
+        component={LogoutConfirmationScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DeleteAccountConfirmationScreen"
+        component={DeleteAccountConfirmationScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditCredentialsScreen"
+        component={EditCredentialsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditPasswordScreen"
+        component={EditPasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserContactScreen"
+        component={UserContactScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditContactScreen"
+        component={EditContactScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
 
-        
-        {/* <Stack.Screen
-                    name="EditCredentialsScreen"
-                    component={EditCredentialsScreen}
-                    options={{ headerShown: false }}
-                /> */}
-        {/* <Stack.Screen
-                    name="EditPasswordScreen"
-                    component={EditPasswordScreen}
-                    options={{ headerShown: false }}
-                /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
   );
 };
 
-export default Navigator;
+
+const AppNavigator = () => {
+  const { isLoggedIn } = useLogin();
+  return isLoggedIn ? <Navigator /> : <AuthNavigator />;
+};
+export default AppNavigator;

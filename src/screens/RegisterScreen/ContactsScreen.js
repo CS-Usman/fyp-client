@@ -7,19 +7,16 @@ import LoadingPopup from '../../components/LoadingPopup';
 import { SearchField } from '../../components/TextInput';
 import CheckBox from '@react-native-community/checkbox';
 import { AddToEmergencyContactBtn } from '../../components/Button';
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
-import { updateUserApi } from '../../services/ApiService';
-import { CommonActions } from '@react-navigation/native';
+import { responsiveFontSize, responsiveHeight, responsiveScreenWidth, responsiveWidth } from 'react-native-responsive-dimensions';
 
-
-const EditContactScreen = (props) => {
+const ContactsScreen = (props) => {
     const [searchText, setSearchText] = useState('');
     const [contactsData, setContactsData] = useState([]);
     const [filteredContacts, setFilteredContacts] = useState([]);
     const [emergencyContacts, setEmergencyContacts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const { userData, token } = props.route.params;
+    const { userData } = props.route.params;
 
     useEffect(() => {
         loadContacts();
@@ -59,7 +56,7 @@ const EditContactScreen = (props) => {
     };
 
 
-    const handleAddToEmergencyContacts = async () => {
+    const handleAddToEmergencyContacts = () => {
         const selectedContacts = filteredContacts.filter(
             (contact) => contact.isSelected
         );
@@ -68,24 +65,13 @@ const EditContactScreen = (props) => {
             ...selectedContacts,
         ]);
         if (emergencyContacts.length > 0) {
-            const formattedContacts = emergencyContacts.map((contact) => {
-                const displayName = contact.displayName;
-                const rawContactId = contact.rawContactId;
-                const phoneNumbers = contact.phoneNumbers[0].number;
-                return { displayName, phoneNumbers, rawContactId };
+            props.navigation.navigate('ConfirmationScreen', {
+                userData: userData,
+                emergencyContacts: [...emergencyContacts],
             });
-            const response = await updateUserApi({ email: userData.email, emergencyContacts: formattedContacts }, token);
-            if (response) {
-                props.navigation.dispatch(
-                    CommonActions.reset({
-                        index: 0,
-                        routes: [{ name: 'HomeScreen' }],
-                    })
-                );
-            }
         }
         else {
-            Alert.alert('Note', 'Selected contacts should be between 1-5');
+            Alert.alert('No contact selected', 'Click on checkboxes to select emergency contacts you want Smart Ride to send emergency sos.');
 
         }
     };
@@ -121,7 +107,7 @@ const EditContactScreen = (props) => {
                     contentContainerStyle={styles.listContainer}
                 />
                 <AddToEmergencyContactBtn
-                    btnLabel="Change Emergency Contacts"
+                    btnLabel="Add to Emergency Contacts"
                     Press={handleAddToEmergencyContacts}
                 />
                 {loading && <LoadingPopup />}
@@ -166,4 +152,4 @@ const styles = StyleSheet.create({
 
     },
 });
-export default EditContactScreen;
+export default ContactsScreen;

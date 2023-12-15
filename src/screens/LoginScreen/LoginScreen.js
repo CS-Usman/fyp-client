@@ -11,34 +11,34 @@ import {
 
 import styles from './LoginStyles.js'; //
 import LinearGradient from 'react-native-linear-gradient';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 
-import Btn, {GoogleBtn, SigninBtn, SignupBtn} from '../../components/Button';
+import Btn, { SignupBtn } from '../../components/Button';
 import Field from '../../components/TextInput';
-import Title, {Subtitle, Info} from '../../components/Text.js';
-
+import Title, { Subtitle, Info } from '../../components/Text.js';
+import { useLogin } from '../../context/LoginProvider.js';
 import LoginValidationSchema from '../../utils/FromValidation.js';
-import {loginApi} from '../../services/AuthApiService.js';
-import {storeUserDataToSecureStorage} from '../../utils/localStorageData.js';
+import { loginApi } from '../../services/AuthApiService.js';
+import { storeUserDataToSecureStorage } from '../../utils/localStorageData.js';
 
 const LoginScreen = props => {
+  const { setIsLoggedIn } = useLogin();
+
   const initialValues = {
     email: '',
     password: '',
   };
 
   const handleSubmit = async values => {
-    // const responseFromServer = await loginApi(values);
-    // const responseFromLocalStorage = await storeUserDataToSecureStorage(
-    //     responseFromServer
-    // );
-    // const data = { ...responseFromServer };
-    // console.log(data);
-    // if (responseFromServer && responseFromLocalStorage) {
-    // props.navigation.navigate('HomeScreen');
-    // } else {
-    //     return 'Error occurs during user login';
-    // }
+    const responseFromServer = await loginApi(values);
+    const responseFromLocalStorage = await storeUserDataToSecureStorage(
+      responseFromServer
+    );
+    if (responseFromServer && responseFromLocalStorage) {
+      setIsLoggedIn(true);
+    } else {
+      return 'Error occurs during user login';
+    }
   };
 
   return (
@@ -57,7 +57,7 @@ const LoginScreen = props => {
               initialValues={initialValues}
               validationSchema={LoginValidationSchema}
               onSubmit={handleSubmit}>
-              {({handleChange, handleBlur, handleSubmit, values, errors}) => (
+              {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
                 <>
                   <Field
                     onChangeText={handleChange('email')}
@@ -82,6 +82,9 @@ const LoginScreen = props => {
                   {errors.password && (
                     <Text style={styles.errorText}>{errors.password}</Text>
                   )}
+                  <View style={styles.loginButtonView}>
+                    <Btn title="Submit" btnLabel="LOGIN" Press={handleSubmit} />
+                  </View>
                   <TouchableOpacity
                     style={styles.forgotPassword}
                     onPress={() =>
@@ -93,9 +96,6 @@ const LoginScreen = props => {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <View style={styles.loginButtonView}>
-                    <Btn title="Submit" btnLabel="LOGIN" Press={handleSubmit} />
-                  </View>
                 </>
               )}
             </Formik>
@@ -103,18 +103,18 @@ const LoginScreen = props => {
 
           <LinearGradient
             colors={['#3dc6b9', '#4df8e8']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
             style={styles.signupContainer}>
             <Subtitle content="Don't have an account ?" />
             <SignupBtn
-              btnLabel="Sign Up"
-              // onPress={() => props.navigation.navigate('RegisterScreen')}
+              btnLabel="SIGN UP"
+              Press={() => { props.navigation.navigate('RegisterScreen'); }}
             />
           </LinearGradient>
         </View>
       </ImageBackground>
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView >
   );
 };
 

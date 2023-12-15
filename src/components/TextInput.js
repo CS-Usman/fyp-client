@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { TextInput, StyleSheet, View, Image } from 'react-native';
+import { TextInput, StyleSheet, View } from 'react-native';
 import {
     responsiveHeight,
     responsiveWidth,
@@ -16,7 +16,9 @@ export const SearchField = props => {
             <TextInput
                 {...props}
                 style={styles.searchFieldStyle}
-                placeholder="   Search Contact ..." />
+                placeholder="   Search Contact ..."
+                placeholderTextColor="#a9a9a9" />
+
         </View>
     );
 };
@@ -27,15 +29,14 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingHorizontal: responsiveWidth(5),
         paddingVertical: responsiveHeight(1),
-        width: responsiveWidth(85),
+        width: responsiveWidth(80),
         backgroundColor: '#171717',
         marginVertical: responsiveHeight(1.2),
-    
     },
 
     searchFieldContainer: {
         flexDirection: 'row',
-        backgroundColor: '#FFF',
+        backgroundColor: '#1B1B1B',
         borderRadius: 40,
         alignItems: 'center',
         paddingHorizontal: responsiveHeight(1),
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
     searchFieldStyle: {
         paddingHorizontal: responsiveWidth(2),
         fontSize: responsiveFontSize(2),
+        color: '#a9a9a9',
     },
 });
 

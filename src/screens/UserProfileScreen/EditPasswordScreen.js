@@ -5,25 +5,22 @@ import {
     Text,
     StyleSheet,
     ImageBackground,
-    Dimensions,
     KeyboardAvoidingView,
 } from 'react-native';
 import {
     responsiveHeight,
     responsiveWidth,
-    responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 
 import { Formik } from 'formik';
 
 import Btn from '../../components/Button';
 import Field from '../../components/TextInput';
+import Title, { Info } from '../../components/Text.js';
+
 import { PasswordValidationSchema } from '../../utils/FromValidation';
 import { changePasswordApi } from '../../services/ApiService.js';
 import { CommonActions } from '@react-navigation/native';
-
-
-const { width, height } = Dimensions.get('window');
 
 
 const EditPasswordScreen = (props) => {
@@ -56,91 +53,101 @@ const EditPasswordScreen = (props) => {
 
     return (
         <KeyboardAvoidingView>
-            {/* <ImageBackground
-                source={require('../../../assets/images/back2.png')}
-                style={{ height: '100%', width: '100%' }}
-            > */}
-            <View style={styles.container}>
-                <Text style={styles.title}>Change Password</Text>
-                <View style={styles.registerContainer}>
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={PasswordValidationSchema}
-                        onSubmit={handleSubmit}
-                    >
-                        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
-                            <>
-                                <Field
-                                    onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
-                                    value={values.password}
-                                    placeholder="Password"
-                                    secureTextEntry
-                                />
-                                {errors.password && (
-                                    <Text style={styles.errorText}>{errors.password}</Text>
-                                )}
-                                <Field
-                                    onChangeText={handleChange('confirmPassword')}
-                                    onBlur={handleBlur('confirmPassword')}
-                                    value={values.confirmPassword}
-                                    placeholder="Confirm Password"
-                                    secureTextEntry
-                                />
-                                {passwordError && (
-                                    <Text style={styles.errorText}>Password did not match</Text>
-                                )}
-                                <Text style={styles.space}>{''}</Text>
-                                <Btn
-                                    title="Submit"
-                                    btnLabel="Save"
-                                    Press={handleSubmit}
-                                />
-                            </>
-                        )}
-                    </Formik>
+            <ImageBackground
+                source={require('../../../assets/images/background.png')}
+                style={styles.img}>
+                <View style={styles.container}>
+                    <View style={styles.loginContainer}>
+                        <View style={styles.loginInfoView}>
+                            <Title content="EDIT PASSWORD" />
+                            <Info content="Enter your new password" />
+                        </View>
+                        <Formik
+                            initialValues={initialValues}
+                            validationSchema={PasswordValidationSchema}
+                            onSubmit={handleSubmit}
+                        >
+                            {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+                                <>
+                                    <Field
+                                        onChangeText={handleChange('password')}
+                                        onBlur={handleBlur('password')}
+                                        value={values.password}
+                                        placeholder="Password"
+                                        secureTextEntry
+                                        placeholderTextColor="#a9a9a9"
+
+                                    />
+                                    {errors.password && (
+                                        <Text style={styles.errorText}>{errors.password}</Text>
+                                    )}
+                                    <Field
+                                        onChangeText={handleChange('confirmPassword')}
+                                        onBlur={handleBlur('confirmPassword')}
+                                        value={values.confirmPassword}
+                                        placeholder="Confirm Password"
+                                        secureTextEntry
+                                        placeholderTextColor="#a9a9a9"
+
+                                    />
+                                    {passwordError && (
+                                        <Text style={styles.errorText}>Password did not match</Text>
+                                    )}
+                                    <Text style={styles.space}>{''}</Text>
+                                    <View style={styles.loginButtonView}>
+                                        <Btn
+                                            title="Submit"
+                                            btnLabel="SAVE"
+                                            Press={handleSubmit}
+                                        />
+                                    </View>
+
+                                </>
+                            )}
+                        </Formik>
+                    </View>
                 </View>
-            </View>
-            {/* </ImageBackground> */}
+            </ImageBackground>
         </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
+    img: {
+        height: '100%',
+        width: '100%',
+    },
     container: {
-        alignItems: 'center',
-        width: width,
-    },
-    title: {
-        color: 'white',
-        fontSize: responsiveFontSize(4.5),
-        fontWeight: 'bold',
-        marginVertical: responsiveHeight(11),
-    },
-    registerContainer: {
-        backgroundColor: 'white',
-        width: responsiveWidth(100),
-        borderTopLeftRadius: 0.28 * width,
-        paddingTop: responsiveHeight(7),
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     },
-    subtitle: {
-        fontSize: responsiveFontSize(3.5),
-        color: '#4b3ca7',
-        fontWeight: 'bold',
+    loginContainer: {
+        backgroundColor: '#1B1B1B',
+        opacity: 0.95,
+        width: responsiveWidth(90), // Responsive width
+        paddingTop: responsiveHeight(3),
+        alignItems: 'flex-start',
+        paddingLeft: responsiveWidth(2.5), // Responsive padding
+        borderRadius: 20,
+        height: responsiveHeight(52), // Responsive height
     },
-    description: {
-        color: 'grey',
-        fontSize: responsiveFontSize(2),
-        fontWeight: 'bold',
-        marginBottom: responsiveHeight(5),
+    loginInfoView: {
+        paddingLeft: responsiveWidth(2.5),
+        marginBottom: responsiveHeight(1.5),
     },
-    space: {
-        marginVertical: responsiveHeight(0.5),
-    },
+
     errorText: {
         color: 'red',
-        fontStyle: 'italic',
+        paddingLeft: responsiveWidth(5),
+    },
+    loginButtonView: {
+        width: responsiveWidth(80), // Responsive width
+        alignItems: 'center',
+        borderRadius: 20,
+        marginTop: responsiveHeight(2.3),
+        marginBottom: responsiveHeight(2.3),
     },
 });
 
